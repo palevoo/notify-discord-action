@@ -1,10 +1,13 @@
 name: 'Wait'
 description: 'Wait a designated number of milliseconds'
 inputs:
-  milliseconds:  # id of input
-    description: 'number of milliseconds to wait'
+  content:  # id of input
+    description: 'content of the message'
     required: true
-    default: '1000'
+    default: 'Hello world!'
+  discord_webhook_url:
+    description: 'webhook url of discord channel'
+    required: true
 outputs:
   time: # output will be available to future steps
     description: 'The message to output'
