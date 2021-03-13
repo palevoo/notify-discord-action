@@ -1,15 +1,24 @@
 const core = require('@actions/core');
-const wait = require('./wait');
+const axios = require('axios');
 
-
-// most @actions toolkit packages have async methods
 async function run() {
   try {
-    const ms = core.getInput('milliseconds');
-    core.info(`Waiting ${ms} milliseconds ...`);
+    const content = core.getInput('content', { required: true })
+    const discordWebhookUrl = core.getInput('discord_webhook_url', { required: true })
 
-    core.debug((new Date()).toTimeString()); // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-    await wait(parseInt(ms));
+    core.info(`Sending message to discord ...`);
+
+    const res = await axios({
+      url: discordWebhookUrl,
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({
+          content
+      }),
+    })
+  
     core.info((new Date()).toTimeString());
 
     core.setOutput('time', new Date().toTimeString());
